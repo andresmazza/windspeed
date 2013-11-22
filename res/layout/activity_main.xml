@@ -4,18 +4,7 @@
     android:layout_height="match_parent" >
 
     <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
-        android:textColor="#FF0000"
-        android:text="@string/title"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/fraction"
+        android:id="@+id/realTimeFraction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/point"
@@ -23,39 +12,158 @@
         android:layout_toRightOf="@+id/point"
         android:text="@string/cero"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="80sp" />
+        android:textSize="60sp" />
 
     <TextView
         android:id="@+id/point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/decimal"
-        android:layout_alignBottom="@+id/decimal"
+        android:layout_alignBaseline="@+id/realTimeDecimal"
+        android:layout_alignBottom="@+id/realTimeDecimal"
         android:layout_centerHorizontal="true"
         android:text="@string/point"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="80sp" />
-
-    <TextView
-        android:id="@+id/decimal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_marginTop="72dp"
-        android:layout_toLeftOf="@+id/point"
-        android:text="@string/cerocero"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="80sp" />
+        android:textSize="60sp" />
 
     <TextView
         android:id="@+id/unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fraction"
+        android:layout_alignBottom="@+id/realTimeFraction"
         android:layout_marginBottom="30dp"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/title"
         android:text="@string/unit"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:text="@string/title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FF0000" />
+
+    <TextView
+        android:id="@+id/realTimeDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="18dp"
+        android:layout_toLeftOf="@+id/point"
+        android:text="@string/cerocero"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/TextView03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/GustDecimal"
+        android:layout_alignBottom="@+id/GustDecimal"
+        android:layout_toLeftOf="@+id/realTimeFraction"
+        android:text="@string/point"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/GustFraction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextView03"
+        android:layout_alignBottom="@+id/TextView03"
+        android:layout_alignLeft="@+id/realTimeFraction"
+        android:text="@string/cero"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/labelRealTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/unit"
+        android:layout_toLeftOf="@+id/realTimeDecimal"
+        android:text="Real Time" />
+
+    <TextView
+        android:id="@+id/TextView05"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/unit"
+        android:layout_alignTop="@+id/LabelGust"
+        android:text="@string/unit"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/TextView09"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/AverageDecimal"
+        android:layout_alignBottom="@+id/AverageDecimal"
+        android:layout_toRightOf="@+id/AverageDecimal"
+        android:text="@string/point"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/AverageFraction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextView09"
+        android:layout_alignBottom="@+id/TextView09"
+        android:layout_alignLeft="@+id/GustFraction"
+        android:text="@string/cero"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/TextView08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/AverageFraction"
+        android:layout_alignBottom="@+id/AverageFraction"
+        android:layout_alignLeft="@+id/TextView05"
+        android:text="@string/unit"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/LabelAverage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextView08"
+        android:layout_alignLeft="@+id/labelRealTime"
+        android:text="Average" />
+
+    <TextView
+        android:id="@+id/LabelGust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/LabelAverage"
+        android:layout_alignTop="@+id/GustDecimal"
+        android:layout_marginTop="25dp"
+        android:text="Gust" />
+
+    <TextView
+        android:id="@+id/GustDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/point"
+        android:layout_toLeftOf="@+id/TextView03"
+        android:text="@string/cerocero"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/AverageDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView03"
+        android:layout_toLeftOf="@+id/TextView03"
+        android:text="@string/cerocero"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="60sp" />
 
 </RelativeLayout>

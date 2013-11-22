@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import com.furtivo.windSpeed.R;
 
+import android.R.string;
 import android.app.Activity;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -13,12 +14,17 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements MicrophoneInputListener {
 	MicrophoneInput micInput; // The micInput object provides real time audio.
 
-	TextView mWindTextView;
-	TextView mWindFractionTextView;
+	TextView realTimeDecimal;
+	TextView realTimeFraction;
+	
+	TextView gustDecimal;
+	TextView gustFraction;
 
 	private int mSampleRate = 44000; // The audio sampling rate to use.
-	private int mAudioSource = MediaRecorder.AudioSource.DEFAULT; // Audio source
-
+	private int mAudioSource = MediaRecorder.AudioSource.DEFAULT; // Audio
+																	// source
+	double maxWind = 0.0;
+	double currentWind = 0.0;
 	double mAlpha = 0.9; // Coefficient of IIR smoothing filter for RMS.
 	double mGain = 2500.0 / Math.pow(10.0, 90.0 / 20.0);
 	double mRmsSmoothed; // Temporally filtered version of RMS.
@@ -40,8 +46,11 @@ public class MainActivity extends Activity implements MicrophoneInputListener {
 		micInput.setAudioSource(mAudioSource);
 		micInput.start();
 
-		mWindTextView = (TextView) findViewById(R.id.decimal);
-		mWindFractionTextView = (TextView) findViewById(R.id.fraction);
+		realTimeDecimal = (TextView) findViewById(R.id.realTimeDecimal);
+		realTimeFraction = (TextView) findViewById(R.id.realTimeFraction);
+		
+		gustDecimal = (TextView) findViewById(R.id.GustDecimal);
+		gustFraction = (TextView) findViewById(R.id.GustFraction);
 
 	}
 
@@ -59,36 +68,76 @@ public class MainActivity extends Activity implements MicrophoneInputListener {
 
 			// Compute a smoothed version for less flickering of the display.
 			mRmsSmoothed = mRmsSmoothed * mAlpha + (1 - mAlpha) * rms;
-			final double rmsdB = 0.5 * Math.log10(mGain * mRmsSmoothed);
-			// final double rmsdB = 20 * Math.log10(mGain * mRmsSmoothed);
+			final double rmsdB = 20 * Math.log10(mGain * mRmsSmoothed);
 
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					DecimalFormat df = new DecimalFormat("##");
-					// mWindTextView.setText(df.format(20 + rmsdB));
-					mWindTextView.setText(df.format(rmsdB));
-					// DecimalFormat df_fraction = new DecimalFormat("#");
-					int one_decimal = (int) (Math.round(Math.abs(rmsdB * 10))) % 10;
-					mWindFractionTextView.setText(Integer.toString(one_decimal));
+					int decimal = (int) Math.round(rmsdB - 9);
+					if (decimal <= 1) {
+						realTimeDecimal.setText("0");
+						realTimeFraction.setText("0");
+
+					} else {
+						realTimeDecimal.setText(df.format(decimal));
+
+						int one_decimal = (int) (Math.round(Math.abs(rmsdB))) % 10;
+						realTimeFraction.setText(Integer
+								.toString(one_decimal));
+						
+						currentWind = Double.parseDouble(realTimeDecimal.getText() + "." +realTimeDecimal.getText());
+						if(currentWind > maxWind) {
+							maxWind = currentWind;
+							setmaxWind(maxWind);
+						}
+						
+					}
 					mDrawing = false;
 				}
 			});
 
 		} else {
 			mDrawingCollided++;
-			Log.v(TAG,
-					"runOnUiThread" + "than 20ms. Collision count"
-							+ Double.toString(mDrawingCollided));
+			// Log.v(TAG,
+			// "runOnUiThread" + "than 20ms. Collision count"
+			// + Double.toString(mDrawingCollided));
 		}
 
 	}
-	   @Override
-	    public void onDestroy()
-	    {
-	        super.onDestroy();
-	        finish();
-	        //MainActivity.remove(this);
-	    }
+
+	
+	
+	
+	
+	private void setmaxWind(double maxWind) {
+		int one_decimal = (int) (Math.round(Math.abs(maxWind)*10)) % 10;
+		gustDecimal.setText(String.format("%.0f", maxWind));
+		gustFraction.setText(Integer
+				.toString(one_decimal));
+		
+	}
+	
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		finish();
+		// MainActivity.remove(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		finish();
+		// MainActivity.remove(this);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		finish();
+		// MainActivity.remove(this);
+	}
 
 }
