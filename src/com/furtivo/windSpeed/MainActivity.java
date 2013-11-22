@@ -9,16 +9,24 @@ import android.app.Activity;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements MicrophoneInputListener {
 	MicrophoneInput micInput; // The micInput object provides real time audio.
 
 	TextView realTimeDecimal;
 	TextView realTimeFraction;
-	
+
 	TextView gustDecimal;
 	TextView gustFraction;
+
+	TextView labelTest;
+
+	Button resetButton;
 
 	private int mSampleRate = 44000; // The audio sampling rate to use.
 	private int mAudioSource = MediaRecorder.AudioSource.DEFAULT; // Audio
@@ -48,9 +56,22 @@ public class MainActivity extends Activity implements MicrophoneInputListener {
 
 		realTimeDecimal = (TextView) findViewById(R.id.realTimeDecimal);
 		realTimeFraction = (TextView) findViewById(R.id.realTimeFraction);
-		
+
 		gustDecimal = (TextView) findViewById(R.id.GustDecimal);
 		gustFraction = (TextView) findViewById(R.id.GustFraction);
+
+		labelTest = (TextView) findViewById(R.id.LabelTest);
+		resetButton = (Button) findViewById(R.id.ResetButton);
+		
+		resetButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Toast msg = Toast.makeText(getBaseContext(),
+						"You have clicked Reset Button", Toast.LENGTH_LONG);
+				msg.show();
+				maxWind = 0.0;
+				currentWind = 0.0;
+			}
+		});
 
 	}
 
@@ -81,17 +102,17 @@ public class MainActivity extends Activity implements MicrophoneInputListener {
 
 					} else {
 						realTimeDecimal.setText(df.format(decimal));
-
+						setAverageWind(mRmsSmoothed);
 						int one_decimal = (int) (Math.round(Math.abs(rmsdB))) % 10;
-						realTimeFraction.setText(Integer
-								.toString(one_decimal));
-						
-						currentWind = Double.parseDouble(realTimeDecimal.getText() + "." +realTimeDecimal.getText());
-						if(currentWind > maxWind) {
+						realTimeFraction.setText(Integer.toString(one_decimal));
+
+						currentWind = Double.parseDouble(realTimeDecimal
+								.getText() + "." + realTimeDecimal.getText());
+						if (currentWind > maxWind) {
 							maxWind = currentWind;
-							setmaxWind(maxWind);
+							setMaxWind(maxWind);
 						}
-						
+
 					}
 					mDrawing = false;
 				}
@@ -106,19 +127,16 @@ public class MainActivity extends Activity implements MicrophoneInputListener {
 
 	}
 
-	
-	
-	
-	
-	private void setmaxWind(double maxWind) {
-		int one_decimal = (int) (Math.round(Math.abs(maxWind)*10)) % 10;
+	private void setMaxWind(double maxWind) {
+		int one_decimal = (int) (Math.round(Math.abs(maxWind) * 10)) % 10;
 		gustDecimal.setText(String.format("%.0f", maxWind));
-		gustFraction.setText(Integer
-				.toString(one_decimal));
-		
+		gustFraction.setText(Integer.toString(one_decimal));
 	}
-	
-	
+
+	private void setAverageWind(double wind) {
+		labelTest.setText(new DecimalFormat("##.#").format(wind));
+	}
+
 	@Override
 	public void onPause() {
 		super.onPause();
